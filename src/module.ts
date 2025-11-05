@@ -7,7 +7,11 @@ import { name, version } from '../package.json';
 /**
  * The options the module adds to the nuxt.config.ts.
  */
-export interface ModuleOptions {}
+export interface ModuleOptions {
+  graphqlURL: string;
+  user: string;
+  pass: string;
+}
 
 /**
  * The config the module adds to nuxt.runtimeConfig.public['my-laioutr-app']
@@ -26,7 +30,10 @@ export default defineNuxtModule<ModuleOptions>({
     configKey: name, // configKey must match package name
   },
   // Default configuration options of the Nuxt module
-  defaults: {},
+  defaults: {
+    graphqlURL: 'https://graphql.demoshop.rocks/graphql/',
+    user: 'support@fatchip.de',
+  },
   async setup(_options, nuxt) {
     const { resolve } = createResolver(import.meta.url);
     const resolveRuntimeModule = (path: string) => resolve('./runtime', path);
