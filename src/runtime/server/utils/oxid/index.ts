@@ -5,5 +5,5 @@ export const extractSlugFromSeo = (seo: Pick<Seo, 'url'>) => {
 
   const slug = seo.url.match(/\/([^/]+)\/?$/)?.[1];
 
-  return slug;
+  return slug?.split('.')[0];
 };

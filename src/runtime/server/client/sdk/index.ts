@@ -1,10 +1,27 @@
 import { GraphQLClient } from 'graphql-request';
+import { H3Event } from 'h3';
+import { getCookie, setCookie } from '#imports';
 import { CategoryNotFoundError } from '@laioutr-core/canonical-types/ecommerce';
-import { CategoriesQueryQuery, ProductsQueryQuery, TokenQueryQuery } from '~/src/generated/types';
+import {
+  BasketAddItemMutationMutation,
+  BasketCreateMutationMutation,
+  BasketQueryQuery,
+  CategoriesQueryQuery,
+  ManufacturerQueryQuery,
+  ProductQueryQuery,
+  ProductsQueryQuery,
+  TokenQueryQuery,
+  VendorQueryQuery,
+} from '~/src/generated/types';
 import { extractSlugFromSeo } from '../../utils/oxid';
+import { BasketAddItemMutation, BasketCreateMutation } from '../mutations/basket';
+import { BasketQuery } from '../queries/basket';
 import { CategoriesQuery } from '../queries/categories';
-import { ProductsQuery } from '../queries/products';
+import { ManufacturerQuery } from '../queries/manufacturer';
+import { ProductQuery, ProductsQuery } from '../queries/products';
 import { TokenQuery } from '../queries/token';
+import { VendorQuery } from '../queries/vendor';
+import { ProductFlags } from '../types/flags';
 
 export class OxidSDK {
   private graphqlURL: string;
@@ -35,6 +52,16 @@ export class OxidSDK {
     return this.client.request<CategoriesQueryQuery>(CategoriesQuery);
   }
 
+  /* Manufacturers */
+  async listManufacturers() {
+    return this.client.request<ManufacturerQueryQuery>(ManufacturerQuery);
+  }
+
+  /* Vendors */
+  async listVendors() {
+    return this.client.request<VendorQueryQuery>(VendorQuery);
+  }
+
   /* Products */
   private resolveProductQueryParams({
     filter,
@@ -49,19 +76,67 @@ export class OxidSDK {
     };
   }
 
-  async getProductsByCategoryId(categoryId: string, queryParams?: Parameters<typeof this.resolveProductQueryParams>[0]) {
-    const qp = this.resolveProductQueryParams(queryParams);
-
-    return this.client.request<ProductsQueryQuery>(ProductsQuery, { filters: { category: { equals: categoryId } }, ...qp });
+  async getProductById(productId: string, flags: ProductFlags = {}) {
+    return this.client.request<ProductQueryQuery>(ProductQuery, { productId, ...flags });
   }
 
-  async getProductsByCategorySlug(categorySlug: string, queryParams?: Parameters<typeof this.resolveProductQueryParams>[0]) {
+  async getProductsByCategoryId(
+    categoryId: string,
+    queryParams?: Parameters<typeof this.resolveProductQueryParams>[0],
+    flags: ProductFlags = {}
+  ) {
+    const qp = this.resolveProductQueryParams(queryParams);
+
+    return this.client.request<ProductsQueryQuery>(ProductsQuery, { filters: { category: { equals: categoryId } }, ...qp, ...flags });
+  }
+
+  async getProductsByCategorySlug(
+    categorySlug: string,
+    queryParams?: Parameters<typeof this.resolveProductQueryParams>[0],
+    flags: ProductFlags = {}
+  ) {
     const { categories } = await this.listCategories();
 
     const category = categories.find((c) => extractSlugFromSeo(c.seo) === categorySlug);
 
     if (!category) throw new CategoryNotFoundError(categorySlug);
 
-    return this.getProductsByCategoryId(category.id, queryParams);
+    return this.getProductsByCategoryId(category.id, queryParams, flags);
+  }
+
+  /* Baskets */
+  async getBasketById(basketId: string) {
+    return this.client.request<BasketQueryQuery>(BasketQuery, { basketId });
+  }
+
+  async assertCurrentBasketExists({ event }: { event: H3Event }) {
+    let basketId = getCookie(event, 'oxid-basket-id');
+
+    if (!basketId) {
+      const { basketCreate } = await this.client.request<BasketCreateMutationMutation>(BasketCreateMutation, {
+        basket: { title: `default_${Date.now()}` },
+      });
+
+      basketId = basketCreate.id;
+
+      setCookie(event, 'oxid-basket-id', basketId, {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'strict',
+        path: '/',
+        maxAge: 60 * 60 * 24 * 30, // 30 days
+      });
+    }
+
+    return basketId;
+  }
+
+  async getCurrentBasket({ event }: { event: H3Event }) {
+    const basketId = await this.assertCurrentBasketExists({ event });
+    return this.getBasketById(basketId);
+  }
+
+  async addItemToBasket({ basketId, productId, amount }: { basketId: string; productId: string; amount: number }) {
+    return this.client.request<BasketAddItemMutationMutation>(BasketAddItemMutation, { basketId, productId, amount });
   }
 }

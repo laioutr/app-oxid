@@ -6,17 +6,18 @@ export const defineOxid = defineOrchestr
   .meta({
     app: name,
   })
-  .use(async (_, next) => {
+  .extendRequest(async ({ event }) => {
     const oxidClient = await oxidClientFactory();
+    await oxidClient.assertCurrentBasketExists({ event });
 
     const availableSortings = [
       { key: 'price:ASC', label: 'Price (Asc)' },
       { key: 'price:DESC', label: 'Price (Desc)' },
     ];
 
-    return next({
+    return {
       context: { oxidClient, availableSortings },
-    });
+    };
   });
 
 export const defineOxidAction = defineOxid.actionHandler;
