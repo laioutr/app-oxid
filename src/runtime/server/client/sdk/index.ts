@@ -105,8 +105,8 @@ export class OxidSDK {
   }
 
   /* Baskets */
-  async getBasketById(basketId: string) {
-    return this.client.request<BasketQueryQuery>(BasketQuery, { basketId });
+  async getBasketById(basketId: string, flags: ProductFlags = {}) {
+    return this.client.request<BasketQueryQuery>(BasketQuery, { basketId, ...flags });
   }
 
   async assertCurrentBasketExists({ event }: { event: H3Event }) {
@@ -131,9 +131,9 @@ export class OxidSDK {
     return basketId;
   }
 
-  async getCurrentBasket({ event }: { event: H3Event }) {
+  async getCurrentBasket({ event, flags = {} }: { event: H3Event; flags?: ProductFlags }) {
     const basketId = await this.assertCurrentBasketExists({ event });
-    return this.getBasketById(basketId);
+    return this.getBasketById(basketId, flags);
   }
 
   async addItemToBasket({ basketId, productId, amount }: { basketId: string; productId: string; amount: number }) {

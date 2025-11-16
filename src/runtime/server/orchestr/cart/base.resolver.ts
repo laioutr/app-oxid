@@ -1,3 +1,4 @@
+import { Money } from '@screeny05/ts-money';
 import { CartBase, CartCost } from '@laioutr-core/canonical-types/entity/cart';
 import { defineOxidComponentResolver } from '../../middleware/defineOxid';
 
@@ -23,17 +24,15 @@ export default defineOxidComponentResolver({
           }),
 
           cost: () => ({
-            subtotal: {
-              amount: basket.cost.productGross.sum + basket.cost.delivery.price,
-              currency,
-            },
+            subtotal: Money.fromDecimal({ amount: basket.cost.productGross.sum + basket.cost.delivery.price, currency }),
             subtotalIsEstimated: false,
-            total: { amount: basket.cost.total, currency },
+            shipping: { total: Money.fromDecimal({ amount: basket.cost.delivery.price, currency }), isEstimated: false },
+            total: Money.fromDecimal({ amount: basket.cost.total, currency }),
             totalIsEstimated: false,
-            totalTax: {
-              amount: basket.cost.delivery.vatValue + (basket.cost.productGross.sum - basket.cost.productNet.price),
+            totalTax: Money.fromDecimal({
+              amount: basket.cost.delivery.vatValue + basket.cost.productNet.vatValue,
               currency,
-            },
+            }),
             totalTaxIsEstimated: false,
             taxesIncluded: true,
             totalDuty: { amount: 0, currency: 'EUR' },
