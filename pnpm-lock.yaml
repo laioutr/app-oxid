@@ -9,10 +9,10 @@ importers:
   .:
     dependencies:
       '@laioutr-core/canonical-types':
-        specifier: ^0.15.0
-        version: 0.15.0
+        specifier: ^0.16.0
+        version: 0.16.0
       '@laioutr-core/frontend-core':
-        specifier: ^0.21.0
+        specifier: ^0.21.1
         version: 0.21.1(@vue/compiler-dom@3.5.22)(change-case@5.4.4)(db0@0.3.4)(eslint@9.38.0(jiti@2.6.1))(focus-trap@7.6.6)(fuse.js@7.1.0)(h3@1.15.4)(ioredis@5.8.2)(magicast@0.3.5)(nuxt@3.16.2(@parcel/watcher@2.5.1)(@types/node@24.9.1)(db0@0.3.4)(eslint@9.38.0(jiti@2.6.1))(ioredis@5.8.2)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.52.5)(terser@5.44.0)(typescript@5.9.2)(vite@6.4.1(@types/node@24.9.1)(jiti@2.6.1)(terser@5.44.0)(yaml@2.8.1))(vue-tsc@2.2.10(typescript@5.9.2))(yaml@2.8.1))(rollup@4.52.5)(typescript@5.9.2)(vue-router@4.6.3(vue@3.5.22(typescript@5.9.2)))(vue@3.5.22(typescript@5.9.2))
       '@laioutr-core/kit':
         specifier: ^0.7.9
@@ -67,8 +67,8 @@ importers:
         specifier: ^1.5.3
         version: 1.5.3(@vue/compiler-dom@3.5.22)(change-case@5.4.4)(db0@0.3.4)(eslint@9.38.0(jiti@2.6.1))(focus-trap@7.6.6)(fuse.js@7.1.0)(h3@1.15.4)(ioredis@5.8.2)(magicast@0.3.5)(nuxt@3.16.2(@parcel/watcher@2.5.1)(@types/node@24.9.1)(db0@0.3.4)(eslint@9.38.0(jiti@2.6.1))(ioredis@5.8.2)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.52.5)(terser@5.44.0)(typescript@5.9.2)(vite@6.4.1(@types/node@24.9.1)(jiti@2.6.1)(terser@5.44.0)(yaml@2.8.1))(vue-tsc@2.2.10(typescript@5.9.2))(yaml@2.8.1))(pinia@3.0.2(typescript@5.9.2)(vue@3.5.22(typescript@5.9.2)))(rollup@4.52.5)(typescript@5.9.2)(vite@6.4.1(@types/node@24.9.1)(jiti@2.6.1)(terser@5.44.0)(yaml@2.8.1))(vue-router@4.6.3(vue@3.5.22(typescript@5.9.2)))(vue@3.5.22(typescript@5.9.2))
       '@laioutr/eslint-config':
-        specifier: ^1.5.0
-        version: 1.5.0(@typescript-eslint/eslint-plugin@8.46.2(@typescript-eslint/parser@8.46.2(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.2))(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.2))(@typescript-eslint/utils@8.46.2(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.2))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.46.2(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.2))(eslint-import-resolver-typescript@3.10.1)(eslint@9.38.0(jiti@2.6.1)))(jiti@2.6.1)
+        specifier: ^1.8.8
+        version: 1.8.8(@typescript-eslint/eslint-plugin@8.46.2(@typescript-eslint/parser@8.46.2(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.2))(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.2))(@typescript-eslint/utils@8.46.2(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.2))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.46.2(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.2))(eslint-import-resolver-typescript@3.10.1)(eslint@9.38.0(jiti@2.6.1)))(jiti@2.6.1)
       '@laioutr/logger':
         specifier: ^0.5.1
         version: 0.5.1(magicast@0.3.5)
@@ -1628,9 +1628,6 @@ packages:
   '@laioutr-core/canonical-types@0.14.0':
     resolution: {integrity: sha512-PEfMs2h5e1tqXuysf3ELGndoorbuaoHydJITnW5N/f8cYqjYAaKkXKV+0iI6yi1+NqAlFARj0K61tbp2D20BWg==}
 
-  '@laioutr-core/canonical-types@0.15.0':
-    resolution: {integrity: sha512-SvB6FDJZPw3jVCcv/scxVeVDMrIU3JCKRnSWcxSZ5CxqsBqXd9v90JwDIsWXidYhK4TGcFuoTJyI/N2Rlcw8eg==}
-
   '@laioutr-core/canonical-types@0.16.0':
     resolution: {integrity: sha512-8Kb27Mx74LHdX5+TlDGeCf7rDKUe4jNvtfCbL1AJqjWyxGSBVvLxj+44US+epG9vAxYynUCyZ0XtUihk9F//IA==}
 
@@ -1672,8 +1669,8 @@ packages:
     peerDependencies:
       vite: ^4.0.0 || ^5.0.0 || ^6.0.0
 
-  '@laioutr/eslint-config@1.5.0':
-    resolution: {integrity: sha512-ivoFez/Y7cj77wV/HiltYl7OwwUKX7YdQu8fOzWLGd9JCX/GrgQn5DXAli3uK6lFL1vl0h0BnXUAz4lZw3U9NQ==}
+  '@laioutr/eslint-config@1.8.8':
+    resolution: {integrity: sha512-2/U4LT2Yi/rqPS6QmVFws+l/ZwaUDec8nECU7bF+HwWuPGe+tJNeJAEvG4ghzffyC2mZThJhQIqYMb7jDLzuAw==}
 
   '@laioutr/logger@0.5.1':
     resolution: {integrity: sha512-J5RzQkfq0g3X4Jk4ZlPebnsAWsbY5mrVMllBvZMIRdXbYATMuDs04EfZeLJbVWmY5KJcnl/m8WRVX1I9XelSBg==}
@@ -9919,13 +9916,6 @@ snapshots:
       type-fest: 4.41.0
       zod: 3.25.61
 
-  '@laioutr-core/canonical-types@0.15.0':
-    dependencies:
-      '@ebec/http': 2.3.0
-      ebec: 2.3.0
-      type-fest: 4.41.0
-      zod: 3.25.61
-
   '@laioutr-core/canonical-types@0.16.0':
     dependencies:
       '@ebec/http': 2.3.0
@@ -10395,7 +10385,7 @@ snapshots:
       - vue-router
       - webpack
 
-  '@laioutr/eslint-config@1.5.0(@typescript-eslint/eslint-plugin@8.46.2(@typescript-eslint/parser@8.46.2(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.2))(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.2))(@typescript-eslint/utils@8.46.2(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.2))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.46.2(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.2))(eslint-import-resolver-typescript@3.10.1)(eslint@9.38.0(jiti@2.6.1)))(jiti@2.6.1)':
+  '@laioutr/eslint-config@1.8.8(@typescript-eslint/eslint-plugin@8.46.2(@typescript-eslint/parser@8.46.2(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.2))(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.2))(@typescript-eslint/utils@8.46.2(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.2))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.46.2(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.2))(eslint-import-resolver-typescript@3.10.1)(eslint@9.38.0(jiti@2.6.1)))(jiti@2.6.1)':
     dependencies:
       '@eslint/js': 9.38.0
       eslint: 9.38.0(jiti@2.6.1)
