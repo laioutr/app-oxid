@@ -104,7 +104,7 @@ export default defineOxidComponentResolver({
         }),
 
         shipping: () => ({
-          required: false,
+          required: true,
         }),
 
         options: () => ({

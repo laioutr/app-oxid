@@ -30,10 +30,7 @@ export default defineNuxtModule<ModuleOptions>({
     configKey: name, // configKey must match package name
   },
   // Default configuration options of the Nuxt module
-  defaults: {
-    graphqlURL: 'https://graphql.demoshop.rocks/graphql/',
-    user: 'support@fatchip.de',
-  },
+  defaults: {},
   async setup(_options, nuxt) {
     const { resolve } = createResolver(import.meta.url);
     const resolveRuntimeModule = (path: string) => resolve('./runtime', path);
