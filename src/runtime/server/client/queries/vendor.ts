@@ -1,8 +1,7 @@
 import { gql } from 'graphql-tag';
-import { gqlDedupe } from '../../utils/gql';
 import { VendorFragment } from '../fragments/vendor';
 
-export const VendorQuery = gqlDedupe(gql`
+export const VendorQuery = gql`
   ${VendorFragment}
 
   query vendorQuery {
@@ -10,4 +9,4 @@ export const VendorQuery = gqlDedupe(gql`
       ...Vendor
     }
   }
-`);
+`;

@@ -1,8 +1,7 @@
 import { gql } from 'graphql-tag';
-import { gqlDedupe } from '../../utils/gql';
 import { ManufacturerFragment } from '../fragments/manufacturer';
 
-export const ManufacturerQuery = gqlDedupe(gql`
+export const ManufacturerQuery = gql`
   ${ManufacturerFragment}
 
   query manufacturerQuery {
@@ -10,4 +9,4 @@ export const ManufacturerQuery = gqlDedupe(gql`
       ...Manufacturer
     }
   }
-`);
+`;

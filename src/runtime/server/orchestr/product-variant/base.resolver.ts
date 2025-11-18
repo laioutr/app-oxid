@@ -10,7 +10,7 @@ import {
   ProductVariantShipping,
 } from '@laioutr-core/canonical-types/entity/product-variant';
 import { variantsPassthroughToken } from '../../const/passthroughTokens';
-import { mapProductImageFragment } from '../../mappers/media';
+import { mapResponsiveProductImageFragment } from '../../mappers/media';
 import { defineOxidComponentResolver } from '../../middleware/defineOxid';
 
 export default defineOxidComponentResolver({
@@ -67,7 +67,7 @@ export default defineOxidComponentResolver({
         }),
 
         info: () => ({
-          image: mapProductImageFragment(coverImage),
+          image: mapResponsiveProductImageFragment(coverImage),
         }),
 
         availability: () => ({
