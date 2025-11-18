@@ -1,4 +1,4 @@
-import { Seo } from '~/src/generated/types';
+import { Seo } from '../../../../generated/types';
 
 export const extractSlugFromSeo = (seo: Pick<Seo, 'url'>) => {
   if (!seo.url) return undefined;

@@ -5,7 +5,7 @@ import { defineOxidQuery } from '../../middleware/defineOxid';
 
 export default defineOxidQuery(
   ProductsByCategorySlugQuery,
-  async ({ context, input, filter, requestedComponents, requestedLinks, pagination, sorting, passthrough }) => {
+  async ({ context, input, requestedComponents, requestedLinks, pagination, sorting, passthrough }) => {
     const { oxidClient, availableSortings } = context;
 
     const { categorySlug } = input;

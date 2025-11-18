@@ -1,5 +1,5 @@
 import { AvailableFilter } from '#orchestr/types';
-import { Manufacturer, Vendor } from '~/src/generated/types';
+import { Manufacturer, Vendor } from '../../../../generated/types';
 
 export const mapOxidFacetsToAvailableFilters = ({
   manufacturers,

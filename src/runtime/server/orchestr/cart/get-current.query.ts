@@ -1,5 +1,5 @@
 import { GetCurrentCartQuery } from '@laioutr-core/canonical-types/ecommerce';
-import { Basket } from '~/src/generated/types';
+import { Basket } from '../../../../generated/types';
 import { cartFragmentToken } from '../../const/passthroughTokens';
 import { defineOxidQuery } from '../../middleware/defineOxid';
 

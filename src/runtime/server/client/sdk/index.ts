@@ -12,7 +12,7 @@ import {
   ProductsQueryQuery,
   TokenQueryQuery,
   VendorQueryQuery,
-} from '~/src/generated/types';
+} from '../../../../generated/types';
 import { extractSlugFromSeo } from '../../utils/oxid';
 import { BasketAddItemMutation, BasketCreateMutation } from '../mutations/basket';
 import { BasketQuery } from '../queries/basket';
