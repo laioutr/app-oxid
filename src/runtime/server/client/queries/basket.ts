@@ -1,8 +1,7 @@
 import { gql } from 'graphql-tag';
-import { gqlDedupe } from '../../utils/gql';
 import { BasketFragment } from '../fragments/basket';
 
-export const BasketQuery = gqlDedupe(gql`
+export const BasketQuery = gql`
   ${BasketFragment}
 
   query basketQuery(
@@ -31,4 +30,4 @@ export const BasketQuery = gqlDedupe(gql`
       ...Basket
     }
   }
-`);
+`;

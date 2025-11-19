@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import type { CodegenConfig } from '@graphql-codegen/cli';
 
-const endpoint = 'https://graphql.demoshop.rocks/graphql/';
+const endpoint = process.env.OXID_GRAPHQL_URL;
 
 if (!endpoint) throw new Error('Missing OXID_GRAPHQL_ENDPOINT in .env');
 

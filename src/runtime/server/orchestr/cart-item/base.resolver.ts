@@ -7,7 +7,7 @@ import {
   CartItemQuantityRule,
 } from '@laioutr-core/canonical-types/entity/cart-item';
 import { cartFragmentToken } from '../../const/passthroughTokens';
-import { mapProductImageFragment } from '../../mappers/media';
+import { mapResponsiveProductImageFragment } from '../../mappers/media';
 import { defineOxidComponentResolver } from '../../middleware/defineOxid';
 import { extractSlugFromSeo } from '../../utils/oxid';
 
@@ -34,13 +34,13 @@ export default defineOxidComponentResolver({
           code: item.product?.sku ?? item.id,
           cover:
             item.product?.imageGallery.images[0] ?
-              { ...mapProductImageFragment(item.product.imageGallery.images[0]), type: 'image' }
+              { ...mapResponsiveProductImageFragment(item.product.imageGallery.images[0]), type: 'image' }
             : undefined,
           link: {
             type: 'reference',
             reference: {
               type: 'product',
-              slug: item.product?.seo ? (extractSlugFromSeo(item.product?.seo) ?? item.id) : item.id,
+              slug: (item.product?.seo ? extractSlugFromSeo(item.product?.seo) : undefined) ?? item.product?.sku ?? item.product?.id ?? '',
               id: item.id,
             },
           },

@@ -9,7 +9,7 @@ import {
   ProductSeo,
 } from '@laioutr-core/canonical-types/entity/product';
 import { productsPassthroughToken } from '../../const/passthroughTokens';
-import { mapProductImageFragment } from '../../mappers/media';
+import { mapResponsiveProductImageFragment } from '../../mappers/media';
 import { defineOxidComponentResolver } from '../../middleware/defineOxid';
 import { extractSlugFromSeo } from '../../utils/oxid';
 
@@ -59,7 +59,7 @@ export default defineOxidComponentResolver({
 
         info: () => ({
           brand: product.manufacturer?.title,
-          cover: mapProductImageFragment(coverImage),
+          cover: mapResponsiveProductImageFragment(coverImage),
           shortDescription: product.shortDescription,
         }),
 
@@ -68,8 +68,8 @@ export default defineOxidComponentResolver({
         }),
 
         media: () => ({
-          images: media.map(mapProductImageFragment),
-          media: media.map(mapProductImageFragment),
+          images: media.map(mapResponsiveProductImageFragment),
+          media: media.map(mapResponsiveProductImageFragment),
         }),
 
         prices: () => ({
@@ -81,7 +81,7 @@ export default defineOxidComponentResolver({
         }),
 
         seo: () => ({
-          title: extractSlugFromSeo(product.seo) ?? product.title,
+          title: product.title,
           description: product.seo.description ?? product.shortDescription,
         }),
 
