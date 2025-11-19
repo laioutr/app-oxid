@@ -1,82 +1,79 @@
-<!--
-Get your module up and running quickly.
+# 🛍️ Laioutr OXID Integration
 
-Find and replace all on all files (CMD+SHIFT+F):
-- Name: My Laioutr App
-- Package name: my-laioutr-app
-- Description: My new Laioutr App
--->
+This repository contains the official OXID eShop integration for the **Laioutr** frontend framework. This connector provides a focused set of features to connect your Laioutr application with an OXID backend, enabling essential e-commerce functionality.
 
-# My Laioutr App
+This connector handles cart operations, category navigation, and product retrieval with variant support.
 
-[![npm version][npm-version-src]][npm-version-href]
-[![npm downloads][npm-downloads-src]][npm-downloads-href]
-[![License][license-src]][license-href]
-[![Nuxt][nuxt-src]][nuxt-href]
+---
 
-My new [Laioutr](https://laioutr.com) App for doing amazing things using Nuxt.
+## ✨ Features
 
-See [laioutr.com](https://laioutr.com) for more information about Laioutr.
+This integration provides a robust bridge to OXID, supporting the following features:
 
-- [✨ &nbsp;Release Notes](/CHANGELOG.md)
-  <!-- - [🏀 Online playground](https://stackblitz.com/github/your-org/my-laioutr-app?file=playground%2Fapp.vue) -->
-  <!-- - [📖 &nbsp;Documentation](https://example.com) -->
+### 🛒 Cart Management
 
-## Features
+- **Get Current Cart:** Retrieve the active shopping cart details, including all line items and totals.
+- **Add Item to Cart:** Seamlessly add products and variants to the user's active cart.
 
-<!-- Highlight some of the features your module provide here -->
+### 🗂️ Category Navigation
 
-- ⛰ &nbsp;Foo
-- 🚠 &nbsp;Bar
-- 🌲 &nbsp;Baz
+- **Category Tree by Alias:** Retrieve a nested category structure using a specific category alias (key), ideal for building dynamic navigation menus.
 
-## Quick Setup
+### 📦 Product & Catalog
 
-Before installing dependencies, you need to create a copy of the `.npmrc.config` file called `.npmrc` and fill in the `NPM_LAIOUTR_TOKEN` with your npm token. You can find this token in your [project settings](https://cockpit.laioutr.cloud/o/_/p/_/settings).
+- **Products by Category Slug:** Fetch a list of products assigned to a specific category using its SEO URL slug.
+- **Product Variants:** Retrieve available variants (e.g., size, color, dimensions) for specific products.
 
-- `pnpm i`
-- `npx @laioutr/cli project fetch-rc -p <organization slug>/<project slug> -s <project secret key>` - This will load the `laioutrrc.json` file with the current remote project configuration.
-- `pnpm dev:prepare`
-- `pnpm orchestr-dev`
+---
 
-That's it! You can now use My Laioutr App in your [Laioutr Frontend](https://laioutr.com) ✨
+## 🚀 Installation
 
-You can find a thorough guide on getting started with Laioutr development in our [developer guide](https://docs.laioutr.io/developer-guide/setup).
+```bash
+# Using npm
+npm install @laioutr/app-oxid
 
-## Linting and Formatting
+# Using yarn
+yarn add @laioutr/app-oxid
+```
 
-We use ESLint and Prettier to lint and format the code. This repository contains opinionated configurations for both tools. You can - of course - replace them with your own configurations.
+---
 
-## Publishing
+## ⚙️ Configuration & Usage
 
-To publish a new version, run `pnpm release`. This will:
+To get started, you need to configure the connector with your OXID API credentials. We recommend using environment variables
 
-- Run the tests
-- Update the changelog
-- Publish the package to npmjs.org
-- Push the changes to the repository
+```typescript
+defineNuxtConfig({
+  /* [...] */
+  modules: ['@laioutr/app-oxid'],
+  /* [...] */
+  '@laioutr/app-oxid': {
+    graphqlURL: import.meta.env.OXID_GRAPHQL_URL,
+    user: import.meta.env.OXID_USER,
+    pass: import.meta.env.OXID_PASSWORD,
+    imagesConfig: {
+      iconImageSize: { width: 60, height: 60 },
+      zoomImageSize: { width: 600, height: 600 },
+    },
+  },
+  /* [...] */
+});
+```
 
-### Private publishing
+---
 
-If you want to publish a private package to npm.laioutr.cloud, you need to:
+## 🤝 Contributing
 
-1. Make sure you have a `.npmrc` with your private npm registry token.
-2. Add this line to the root of the `package.json` file: `"publishConfig": { "registry": "https://npm.laioutr.cloud/" }`
-3. Make sure your package-name follows the `@laioutr-org/<organization-slug>_<package-name>` format.
+Contributions are welcome\! Please feel free to submit a Pull Request or open an issue for bugs, feature requests, or improvements.
 
-After that you can run `pnpm release` to publish the package to npm.laioutr.cloud.
+1.  Fork the repository.
+2.  Create your feature branch (`git checkout -b feature/AmazingFeature`).
+3.  Commit your changes (`git commit -m 'Add some AmazingFeature'`).
+4.  Push to the branch (`git push origin feature/AmazingFeature`).
+5.  Open a Pull Request.
 
-## Contribution
+---
 
-Follow the [setup guide](https://docs.laioutr.io/developer-guide/setup) to get started.
+## 📄 License
 
-<!-- Badges -->
-
-[npm-version-src]: https://img.shields.io/npm/v/my-laioutr-app/latest.svg?style=flat&colorA=020420&colorB=00DC82
-[npm-version-href]: https://npmjs.com/package/my-laioutr-app
-[npm-downloads-src]: https://img.shields.io/npm/dm/my-laioutr-app.svg?style=flat&colorA=020420&colorB=00DC82
-[npm-downloads-href]: https://npm.chart.dev/my-laioutr-app
-[license-src]: https://img.shields.io/npm/l/my-laioutr-app.svg?style=flat&colorA=020420&colorB=00DC82
-[license-href]: https://npmjs.com/package/my-laioutr-app
-[nuxt-src]: https://img.shields.io/badge/Nuxt-020420?logo=nuxt.js
-[nuxt-href]: https://nuxt.com
+This project is licensed under the MIT License. See the `LICENSE` file for details.
