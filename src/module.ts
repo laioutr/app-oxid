@@ -7,7 +7,15 @@ import { name, version } from '../package.json';
 /**
  * The options the module adds to the nuxt.config.ts.
  */
-export interface ModuleOptions {}
+export interface ModuleOptions {
+  graphqlURL: string;
+  user: string;
+  pass: string;
+  imagesConfig: {
+    iconImageSize: { width: number; height: number };
+    zoomImageSize: { width: number; height: number };
+  };
+}
 
 /**
  * The config the module adds to nuxt.runtimeConfig.public['my-laioutr-app']
@@ -26,7 +34,12 @@ export default defineNuxtModule<ModuleOptions>({
     configKey: name, // configKey must match package name
   },
   // Default configuration options of the Nuxt module
-  defaults: {},
+  defaults: {
+    imagesConfig: {
+      iconImageSize: { width: 60, height: 60 },
+      zoomImageSize: { width: 600, height: 600 },
+    },
+  },
   async setup(_options, nuxt) {
     const { resolve } = createResolver(import.meta.url);
     const resolveRuntimeModule = (path: string) => resolve('./runtime', path);
@@ -44,6 +57,12 @@ export default defineNuxtModule<ModuleOptions>({
       orchestrDirs: [resolveRuntimeModule('server/orchestr')],
       sections: [resolveRuntimeModule('app/sections')],
       blocks: [resolveRuntimeModule('app/blocks')],
+      nuxtImageProviders: {
+        oxid: {
+          name: 'oxid',
+          provider: resolveRuntimeModule('./app/image/providers/oxid'),
+        },
+      },
     });
 
     // Install peer-dependency modules only on prepare-step.
