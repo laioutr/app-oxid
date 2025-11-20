@@ -4,7 +4,9 @@ import { Basket, CategoryFragment, ProductFragment } from '../../../generated/ty
 export const categoriesPassthroughToken = createPassthroughToken<CategoryFragment[]>('@laioutr-app/oxid/categoriesPassthroughToken');
 
 export const productsPassthroughToken = createPassthroughToken<ProductFragment[]>('@laioutr-app/oxid/productsPassthroughToken');
-export const variantsPassthroughToken = createPassthroughToken<ProductFragment[]>('@laioutr-app/oxid/variantsPassthroughToken');
+export const variantsPassthroughToken = createPassthroughToken<Omit<ProductFragment, 'variants'>[]>(
+  '@laioutr-app/oxid/variantsPassthroughToken'
+);
 
 export const cartFragmentToken = createPassthroughToken<Basket>('@laioutr-app/oxid/cartFragment');
 
