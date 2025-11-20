@@ -105,6 +105,12 @@ export class OxidSDK {
     return this.getProductsByCategoryId(category.id, queryParams, flags);
   }
 
+  async searchProducts(query: string, queryParams?: Parameters<typeof this.resolveProductQueryParams>[0], flags: ProductFlags = {}) {
+    const qp = this.resolveProductQueryParams(queryParams);
+
+    return this.client.request<ProductsQueryQuery>(ProductsQuery, { titleFilter: { contains: query }, ...qp, ...flags });
+  }
+
   /* Baskets */
   async getBasketById(basketId: string, flags: ProductFlags = {}) {
     return this.client.request<BasketQueryQuery>(BasketQuery, { basketId, ...flags });

@@ -7,3 +7,7 @@ export const productsPassthroughToken = createPassthroughToken<ProductFragment[]
 export const variantsPassthroughToken = createPassthroughToken<ProductFragment[]>('@laioutr-app/oxid/variantsPassthroughToken');
 
 export const cartFragmentToken = createPassthroughToken<Basket>('@laioutr-app/oxid/cartFragment');
+
+export const suggestionResultsFragmentToken = createPassthroughToken<Array<{ id: string; type: string; title: string; url: string }>>(
+  '@laioutr/app-oxid/suggestionResults'
+);
