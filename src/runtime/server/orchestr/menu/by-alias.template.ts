@@ -1,11 +1,11 @@
 import { MenuByAliasQuery } from '@laioutr-core/canonical-types/ecommerce';
 import { defineOxidQueryTemplateProvider } from '../../middleware/defineOxid';
-import { extractEntitySlug } from '../../utils/oxid/extractSlug';
+import { getMenuId } from '../../utils/oxid/menuId';
 
 export default defineOxidQueryTemplateProvider({
   for: MenuByAliasQuery,
   run: async ({ context, input }) => {
-    const oxidClient = context.oxidClient;
+    const oxidClient = context.oxid.client;
     const term = input.term;
 
     const allCategories = await oxidClient.listCategories();
@@ -18,7 +18,7 @@ export default defineOxidQueryTemplateProvider({
       ...(term ? [] : [{ label: 'Root', input: { alias: 'root' } }]),
       ...filteredCategories.map((category) => ({
         label: category.title,
-        input: { alias: extractEntitySlug('category', category) },
+        input: { alias: getMenuId('category', category.id) },
       })),
     ];
   },

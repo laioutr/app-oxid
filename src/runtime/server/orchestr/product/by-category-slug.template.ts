@@ -5,7 +5,7 @@ import { extractEntitySlug } from '../../utils/oxid/extractSlug';
 export default defineOxidQueryTemplateProvider({
   for: ProductsByCategorySlugQuery,
   run: async ({ context, input }) => {
-    const oxidClient = context.oxidClient;
+    const oxidClient = context.oxid.client;
     const term = input.term;
 
     const allCategories = await oxidClient.listCategories();
