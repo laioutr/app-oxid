@@ -6,12 +6,12 @@ import { defineOxidQuery } from '../../middleware/defineOxid';
 export default defineOxidQuery(
   ProductsByCategorySlugQuery,
   async ({ context, input, requestedComponents, requestedLinks, pagination, sorting, passthrough }) => {
-    const { oxidClient, availableSortings } = context;
+    const { client, availableSortings } = context.oxid;
 
     const { categorySlug } = input;
 
     // TODO: Figure out how to properly use OXID filters in products query
-    const { products } = await oxidClient.getProductsByCategorySlug(
+    const { products } = await client.getProductsByCategorySlug(
       categorySlug,
       { pagination, sort: sorting },
       {
@@ -37,8 +37,8 @@ export default defineOxidQuery(
 
     passthrough.set(productsPassthroughToken, products);
 
-    const { manufacturers } = await oxidClient.listManufacturers();
-    const { vendors } = await oxidClient.listVendors();
+    const { manufacturers } = await client.listManufacturers();
+    const { vendors } = await client.listVendors();
 
     const availableFilters = mapOxidFacetsToAvailableFilters({ manufacturers, vendors });
 

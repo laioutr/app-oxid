@@ -13,7 +13,7 @@ import {
   TokenQueryQuery,
   VendorQueryQuery,
 } from '../../../../generated/types';
-import { extractSlugFromSeo } from '../../utils/oxid';
+import { extractEntitySlug } from '../../utils/oxid/extractSlug';
 import { BasketAddItemMutation, BasketCreateMutation } from '../mutations/basket';
 import { BasketQuery } from '../queries/basket';
 import { CategoriesQuery } from '../queries/categories';
@@ -28,7 +28,7 @@ export class OxidSDK {
 
   private accessToken = '';
 
-  private get client() {
+  get client() {
     return new GraphQLClient(this.graphqlURL, {
       headers: {
         'Content-Type': 'application/json',
@@ -48,8 +48,8 @@ export class OxidSDK {
   }
 
   /* Categories */
-  async listCategories() {
-    return this.client.request<CategoriesQueryQuery>(CategoriesQuery);
+  async listCategories(parentId?: string) {
+    return this.client.request<CategoriesQueryQuery>(CategoriesQuery, { parentIdFilter: parentId ? { equals: parentId } : undefined });
   }
 
   /* Manufacturers */
@@ -86,8 +86,9 @@ export class OxidSDK {
     flags: ProductFlags = {}
   ) {
     const qp = this.resolveProductQueryParams(queryParams);
+    const filters = { categoryFilter: { equals: categoryId } };
 
-    return this.client.request<ProductsQueryQuery>(ProductsQuery, { filters: { category: { equals: categoryId } }, ...qp, ...flags });
+    return this.client.request<ProductsQueryQuery>(ProductsQuery, { ...filters, ...qp, ...flags });
   }
 
   async getProductsByCategorySlug(
@@ -97,7 +98,7 @@ export class OxidSDK {
   ) {
     const { categories } = await this.listCategories();
 
-    const category = categories.find((c) => extractSlugFromSeo(c.seo) === categorySlug);
+    const category = categories.find((c) => extractEntitySlug('category', c) === categorySlug);
 
     if (!category) throw new CategoryNotFoundError(categorySlug);
 
@@ -109,6 +110,7 @@ export class OxidSDK {
     return this.client.request<BasketQueryQuery>(BasketQuery, { basketId, ...flags });
   }
 
+  /** Do not call in queries! */
   async assertCurrentBasketExists({ event }: { event: H3Event }) {
     let basketId = getCookie(event, 'oxid-basket-id');
 
@@ -122,18 +124,14 @@ export class OxidSDK {
       setCookie(event, 'oxid-basket-id', basketId, {
         httpOnly: true,
         secure: true,
-        sameSite: 'strict',
+        sameSite: 'none',
+        partitioned: false,
         path: '/',
         maxAge: 60 * 60 * 24 * 30, // 30 days
       });
     }
 
     return basketId;
-  }
-
-  async getCurrentBasket({ event, flags = {} }: { event: H3Event; flags?: ProductFlags }) {
-    const basketId = await this.assertCurrentBasketExists({ event });
-    return this.getBasketById(basketId, flags);
   }
 
   async addItemToBasket({ basketId, productId, amount }: { basketId: string; productId: string; amount: number }) {

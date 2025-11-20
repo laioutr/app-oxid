@@ -1986,8 +1986,6 @@ export type ProductFragment = { __typename?: 'Product', id: string, sku?: string
 
 export type SeoFragment = { __typename?: 'Seo', description: string, url?: string | null };
 
-export type TokenFragment = { __typename?: 'Token', token: string, expiresAt?: any | null };
-
 export type VendorFragment = { __typename?: 'Vendor', id: string, title: string };
 
 export type BasketCreateMutationMutationVariables = Exact<{
@@ -2008,25 +2006,6 @@ export type BasketAddItemMutationMutation = { __typename?: 'Mutation', basketAdd
 
 export type BasketQueryQueryVariables = Exact<{
   basketId: Scalars['ID']['input'];
-  includeProductBase?: InputMaybe<Scalars['Boolean']['input']>;
-  includeProductInfo?: InputMaybe<Scalars['Boolean']['input']>;
-  includeProductMedia?: InputMaybe<Scalars['Boolean']['input']>;
-  includeProductPrices?: InputMaybe<Scalars['Boolean']['input']>;
-  includeProductSeo?: InputMaybe<Scalars['Boolean']['input']>;
-  includeProductDescription?: InputMaybe<Scalars['Boolean']['input']>;
-  includeProductAvailability?: InputMaybe<Scalars['Boolean']['input']>;
-  includeProductQuantityPrices?: InputMaybe<Scalars['Boolean']['input']>;
-  includeProductOptions?: InputMaybe<Scalars['Boolean']['input']>;
-  includeProductVariant?: InputMaybe<Scalars['Boolean']['input']>;
-  includeProductVariantBase?: InputMaybe<Scalars['Boolean']['input']>;
-  includeProductVariantInfo?: InputMaybe<Scalars['Boolean']['input']>;
-  includeProductVariantMedia?: InputMaybe<Scalars['Boolean']['input']>;
-  includeProductVariantPrices?: InputMaybe<Scalars['Boolean']['input']>;
-  includeProductVariantSeo?: InputMaybe<Scalars['Boolean']['input']>;
-  includeProductVariantDescription?: InputMaybe<Scalars['Boolean']['input']>;
-  includeProductVariantAvailability?: InputMaybe<Scalars['Boolean']['input']>;
-  includeProductVariantQuantityPrices?: InputMaybe<Scalars['Boolean']['input']>;
-  includeProductVariantOptions?: InputMaybe<Scalars['Boolean']['input']>;
 }>;
 
 

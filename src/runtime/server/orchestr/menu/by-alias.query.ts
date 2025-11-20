@@ -1,22 +1,21 @@
 import { CategoryNotFoundError, MenuByAliasQuery } from '@laioutr-core/canonical-types/ecommerce';
-import { Category } from '../../../../generated/types';
+import { Category, CategoryFragment } from '../../../../generated/types';
 import { categoriesPassthroughToken } from '../../const/passthroughTokens';
 import { defineOxidQuery } from '../../middleware/defineOxid';
-import { extractSlugFromSeo } from '../../utils/oxid';
+import { extractEntitySlug } from '../../utils/oxid/extractSlug';
 
 export default defineOxidQuery(MenuByAliasQuery, async ({ context, input, passthrough }) => {
-  const { oxidClient } = context;
-
+  const oxidClient = context.oxid.client;
   const { alias } = input;
 
   const { categories } = await oxidClient.listCategories();
 
-  let filtered: Category[];
+  let filtered: CategoryFragment[];
 
   if (alias === 'root') {
     filtered = categories.filter((category) => !category.parent) as Category[];
   } else {
-    const parent = categories.find((category) => extractSlugFromSeo(category.seo) === alias);
+    const parent = categories.find((category) => extractEntitySlug('category', category) === alias);
     if (!parent) throw new CategoryNotFoundError(alias);
 
     filtered = categories.filter((category) => category.parent?.id === parent?.id) as Category[];

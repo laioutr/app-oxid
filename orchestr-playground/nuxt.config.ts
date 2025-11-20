@@ -16,11 +16,7 @@ export default defineNuxtConfig({
   '@laioutr/app-oxid': {
     graphqlURL: import.meta.env.OXID_GRAPHQL_URL,
     user: import.meta.env.OXID_USER,
-    pass: import.meta.env.OXID_PASSWORD,
-    imagesConfig: {
-      iconImageSize: { width: 60, height: 60 },
-      zoomImageSize: { width: 600, height: 600 },
-    },
+    password: import.meta.env.OXID_PASSWORD,
   },
   devtools: { enabled: true },
   compatibilityDate: '2025-09-11',

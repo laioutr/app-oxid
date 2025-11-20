@@ -9,7 +9,7 @@ import {
 import { cartFragmentToken } from '../../const/passthroughTokens';
 import { mapResponsiveProductImageFragment } from '../../mappers/media';
 import { defineOxidComponentResolver } from '../../middleware/defineOxid';
-import { extractSlugFromSeo } from '../../utils/oxid';
+import { extractEntitySlug } from '../../utils/oxid/extractSlug';
 
 export default defineOxidComponentResolver({
   entityType: 'CartItem',
@@ -40,7 +40,7 @@ export default defineOxidComponentResolver({
             type: 'reference',
             reference: {
               type: 'product',
-              slug: (item.product?.seo ? extractSlugFromSeo(item.product?.seo) : undefined) ?? item.product?.sku ?? item.product?.id ?? '',
+              slug: item.product ? extractEntitySlug('product', item.product) : '',
               id: item.id,
             },
           },
@@ -54,11 +54,11 @@ export default defineOxidComponentResolver({
           const total = Money.fromDecimal({ amount: totalPrice * (item.amount || 1), currency });
           const singleTotal = total.divide(item.amount || 1);
           const singleStrikethrough = Money.fromDecimal({ amount: listPrice, currency });
-          const hasStrikethrogh = !subtotal.equals(total);
+          const hasStrikethrough = !subtotal.equals(total);
 
           return {
             single: singleTotal,
-            singleStrikethrough: hasStrikethrogh && listPrice > totalPrice ? singleStrikethrough : undefined,
+            singleStrikethrough: hasStrikethrough && listPrice > totalPrice ? singleStrikethrough : undefined,
             subtotal,
             total,
           };
