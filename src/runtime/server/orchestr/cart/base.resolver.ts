@@ -7,7 +7,7 @@ export default defineOxidComponentResolver({
   label: 'OXID Cart Resolver',
   provides: [CartBase, CartCost],
   resolve: async ({ entityIds, context, $entity }) => {
-    const { oxidClient } = context;
+    const oxidClient = context.oxid.client;
 
     const entities = await Promise.all(
       entityIds.map(async (cartId) => {

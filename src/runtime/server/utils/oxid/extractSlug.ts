@@ -1,3 +1,4 @@
+import slug from 'slug';
 import { Seo } from '../../../../generated/types';
 
 /**
@@ -24,10 +25,35 @@ import { Seo } from '../../../../generated/types';
  * extractSlugFromSeo({ url: '/products/red-t-shirt.html' });
  * // Returns: 'red-t-shirt'
  */
-export const extractSlugFromSeo = (seo: Pick<Seo, 'url'>) => {
+const extractSlugFromSeo = (seo: Pick<Seo, 'url'>) => {
   if (!seo.url) return undefined;
 
   const slug = seo.url.match(/\/([^/]+)\/?$/)?.[1];
 
   return slug?.split('.')[0];
+};
+
+interface SluggableEntity {
+  id: string;
+  title: string;
+  seo: Pick<Seo, 'url'>;
+}
+
+const addIdToSlug = (slug: string, id: string) => `${slug}:${id}`;
+
+/**
+ * Turns a entity of given type into a slug for reference in the frontend.
+ *
+ * You can use `parseSlug` to reverse the process.
+ */
+export const extractEntitySlug = (type: 'category' | 'product', entity: SluggableEntity) => {
+  const extracted = extractSlugFromSeo(entity.seo);
+  const slugged = extracted ?? slug(entity.title);
+
+  if (type === 'category') {
+    return extracted || addIdToSlug(slugged, entity.id);
+  }
+
+  // Product ids are always needed for now
+  return addIdToSlug(slugged, entity.id);
 };

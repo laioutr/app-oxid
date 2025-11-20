@@ -13,6 +13,8 @@ import { variantsPassthroughToken } from '../../const/passthroughTokens';
 import { mapResponsiveProductImageFragment } from '../../mappers/media';
 import { defineOxidComponentResolver } from '../../middleware/defineOxid';
 
+const zeroMoney = Money.fromDecimal({ amount: 0, currency: 'EUR' });
+
 export default defineOxidComponentResolver({
   label: 'OXID Product Variant Resolver',
   entityType: 'ProductVariant',
@@ -27,7 +29,7 @@ export default defineOxidComponentResolver({
     ProductVariantOptions,
   ],
   resolve: async ({ entityIds, context, requestedComponents, passthrough, $entity }) => {
-    const { oxidClient } = context;
+    const oxidClient = context.oxid.client;
 
     const products =
       passthrough.has(variantsPassthroughToken) ?
@@ -49,13 +51,7 @@ export default defineOxidComponentResolver({
         );
 
     const entities = products.map((product) => {
-      const coverImage = product.imageGallery.images[0];
-
-      const price = Money.fromDecimal({ amount: product.price.price, currency: product.price.currency.name });
-      const strikethroughPrice =
-        product.listPrice ? Money.fromDecimal({ amount: product.listPrice.price, currency: product.listPrice.currency.name }) : undefined;
-      const isOnSale = !!strikethroughPrice;
-      const savingsPercent = strikethroughPrice ? 100 - price?.percentageOf(strikethroughPrice) : undefined;
+      const price = product.price ? Money.fromDecimal({ amount: product.price.price, currency: product.price.currency.name }) : zeroMoney;
 
       return $entity({
         id: product.id,
@@ -67,7 +63,7 @@ export default defineOxidComponentResolver({
         }),
 
         info: () => ({
-          image: mapResponsiveProductImageFragment(coverImage),
+          image: mapResponsiveProductImageFragment(product.imageGallery.images[0]),
         }),
 
         availability: () => ({
@@ -76,12 +72,21 @@ export default defineOxidComponentResolver({
           availabilityDate: product.stock.restockDate,
         }),
 
-        prices: () => ({
-          price,
-          isOnSale,
-          strikethroughPrice,
-          savingsPercent,
-        }),
+        prices: () => {
+          const strikethroughPrice =
+            product.listPrice ?
+              Money.fromDecimal({ amount: product.listPrice.price, currency: product.listPrice.currency.name })
+            : undefined;
+          const isOnSale = !!strikethroughPrice;
+          const savingsPercent = strikethroughPrice ? 100 - price?.percentageOf(strikethroughPrice) : undefined;
+
+          return {
+            price,
+            isOnSale,
+            strikethroughPrice,
+            savingsPercent,
+          };
+        },
 
         quantityPrices: () =>
           product.scalePrices.map((p) => {

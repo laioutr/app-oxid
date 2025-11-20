@@ -1,11 +1,15 @@
 import { gql } from 'graphql-tag';
 import { ProductFragment } from '../fragments/product';
 
+// All filters have to be provided separately. Providing the whole ProductFilterList input will fail (for some reason).
 export const ProductsQuery = gql`
   ${ProductFragment}
 
   query productsQuery(
-    $filter: ProductFilterList
+    $categoryFilter: CategoryIDFilterInput
+    $titleFilter: StringFilterInput
+    $vendorFilter: IDFilterInput
+    $manufacturerFilter: IDFilterInput
     $pagination: PaginationFilterInput
     $sort: ProductSorting
     $includeProductBase: Boolean = false
@@ -28,7 +32,11 @@ export const ProductsQuery = gql`
     $includeProductVariantQuantityPrices: Boolean = false
     $includeProductVariantOptions: Boolean = false
   ) {
-    products(filter: $filter, pagination: $pagination, sort: $sort) {
+    products(
+      filter: { category: $categoryFilter, title: $titleFilter, vendor: $vendorFilter, manufacturer: $manufacturerFilter }
+      pagination: $pagination
+      sort: $sort
+    ) {
       ...Product
     }
   }

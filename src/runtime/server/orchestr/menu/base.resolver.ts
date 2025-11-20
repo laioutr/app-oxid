@@ -1,14 +1,14 @@
 import { MenuItemBase } from '@laioutr-core/canonical-types/entity/menuItem';
 import { categoriesPassthroughToken } from '../../const/passthroughTokens';
 import { defineOxidComponentResolver } from '../../middleware/defineOxid';
-import { extractSlugFromSeo } from '../../utils/oxid';
+import { extractEntitySlug } from '../../utils/oxid/extractSlug';
 
 export default defineOxidComponentResolver({
   entityType: 'MenuItem',
   label: 'Oxid Menu Resolver',
   provides: [MenuItemBase],
   resolve: async ({ entityIds, context, $entity, passthrough }) => {
-    const { oxidClient } = context;
+    const oxidClient = context.oxid.client;
 
     const { categories } =
       passthrough.has(categoriesPassthroughToken) ?
@@ -22,12 +22,15 @@ export default defineOxidComponentResolver({
           id: category.id,
 
           base: () => ({
-            type: 'reference',
+            type: 'link',
             name: category.title,
-            reference: {
-              type: 'category',
-              slug: extractSlugFromSeo(category.seo) ?? category.id,
-              id: category.id,
+            link: {
+              type: 'reference',
+              reference: {
+                type: 'Category',
+                slug: extractEntitySlug('category', category),
+                id: category.id,
+              },
             },
             childIds: category.children.map((child) => child.id),
             parentId: category.parent?.id,

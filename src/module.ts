@@ -10,8 +10,9 @@ import { name, version } from '../package.json';
 export interface ModuleOptions {
   graphqlURL: string;
   user: string;
-  pass: string;
-  imagesConfig: {
+  password: string;
+  imagesConfig?: {
+    thumbImageSize: { width: number; height: number };
     iconImageSize: { width: number; height: number };
     zoomImageSize: { width: number; height: number };
   };
@@ -33,11 +34,12 @@ export default defineNuxtModule<ModuleOptions>({
     version,
     configKey: name, // configKey must match package name
   },
-  // Default configuration options of the Nuxt module
   defaults: {
+    // See https://docs.oxid-esales.com/eshop/en/7.0/configuration/images.html
     imagesConfig: {
-      iconImageSize: { width: 60, height: 60 },
-      zoomImageSize: { width: 600, height: 600 },
+      thumbImageSize: { width: 500, height: 500 },
+      iconImageSize: { width: 100, height: 100 },
+      zoomImageSize: { width: 1200, height: 1200 },
     },
   },
   async setup(_options, nuxt) {
@@ -50,6 +52,13 @@ export default defineNuxtModule<ModuleOptions>({
     // These two statements can be removed if you don't provide a runtime config
     nuxt.options.runtimeConfig[name] = defu(nuxt.options.runtimeConfig[name] as Parameters<typeof defu>[0], _options);
     nuxt.options.runtimeConfig.public[name] = defu(nuxt.options.runtimeConfig.public[name] as Parameters<typeof defu>[0], _options);
+
+    // Make app-assets publicly available
+    nuxt.options.nitro.publicAssets ??= [];
+    nuxt.options.nitro.publicAssets.push({
+      dir: resolveRuntimeModule('./app/public'),
+      maxAge: 60 * 60 * 24 * 7, // 7 days
+    });
 
     await registerLaioutrApp({
       name,

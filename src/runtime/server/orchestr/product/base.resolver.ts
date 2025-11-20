@@ -11,14 +11,14 @@ import {
 import { productsPassthroughToken } from '../../const/passthroughTokens';
 import { mapResponsiveProductImageFragment } from '../../mappers/media';
 import { defineOxidComponentResolver } from '../../middleware/defineOxid';
-import { extractSlugFromSeo } from '../../utils/oxid';
+import { extractEntitySlug } from '../../utils/oxid/extractSlug';
 
 export default defineOxidComponentResolver({
   label: 'OXID Product Resolver',
   entityType: 'Product',
   provides: [ProductBase, ProductDescription, ProductInfo, ProductMedia, ProductPrices, ProductSeo, ProductFlags],
   resolve: async ({ entityIds, context, requestedComponents, passthrough, $entity }) => {
-    const { oxidClient } = context;
+    const oxidClient = context.oxid.client;
 
     const products =
       passthrough.has(productsPassthroughToken) ?
@@ -54,7 +54,7 @@ export default defineOxidComponentResolver({
 
         base: () => ({
           name: product.title,
-          slug: extractSlugFromSeo(product.seo) ?? product.sku ?? product.id,
+          slug: extractEntitySlug('product', product),
         }),
 
         info: () => ({

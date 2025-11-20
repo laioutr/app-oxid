@@ -5,10 +5,12 @@ import { oxidClientFactory } from '../client';
 export const defineOxid = defineOrchestr
   .meta({
     app: name,
+    label: 'Oxid',
+    logoUrl: '/app-oxid/logo.svg',
   })
   .extendRequest(async ({ event }) => {
     const oxidClient = await oxidClientFactory();
-    await oxidClient.assertCurrentBasketExists({ event });
+    const basketId = await oxidClient.assertCurrentBasketExists({ event });
 
     const availableSortings = [
       { key: 'price:ASC', label: 'Price (Asc)' },
@@ -16,7 +18,13 @@ export const defineOxid = defineOrchestr
     ];
 
     return {
-      context: { oxidClient, availableSortings },
+      context: {
+        oxid: {
+          client: oxidClient,
+          basketId,
+          availableSortings,
+        },
+      },
     };
   });
 
@@ -24,5 +32,4 @@ export const defineOxidAction = defineOxid.actionHandler;
 export const defineOxidQuery = defineOxid.queryHandler;
 export const defineOxidLink = defineOxid.linkHandler;
 export const defineOxidComponentResolver = defineOxid.componentResolver;
-
-export default () => {};
+export const defineOxidQueryTemplateProvider = defineOxid.queryTemplateProvider;

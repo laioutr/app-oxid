@@ -3,7 +3,7 @@ import { productsPassthroughToken, variantsPassthroughToken } from '../../const/
 import { defineOxidLink } from '../../middleware/defineOxid';
 
 export default defineOxidLink(ProductVariantsLink, async ({ entityIds, context, passthrough }) => {
-  const { oxidClient } = context;
+  const oxidClient = context.oxid.client;
 
   const products =
     passthrough.has(productsPassthroughToken) ?

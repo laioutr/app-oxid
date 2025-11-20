@@ -1,10 +1,9 @@
 import { CartAddItemsAction } from '@laioutr-core/canonical-types/ecommerce';
 import { defineOxidAction } from '../../middleware/defineOxid';
 
-export default defineOxidAction(CartAddItemsAction, async ({ event, context, input }) => {
-  const { oxidClient } = context;
-
-  const basketId = await oxidClient.assertCurrentBasketExists({ event });
+export default defineOxidAction(CartAddItemsAction, async ({ context, input }) => {
+  const oxidClient = context.oxid.client;
+  const basketId = context.oxid.basketId;
 
   const products = input.filter((i) => i.type === 'product');
 

@@ -4,8 +4,8 @@ import { CategoryFragment } from '../fragments/category';
 export const CategoriesQuery = gql`
   ${CategoryFragment}
 
-  query categoriesQuery {
-    categories {
+  query categoriesQuery($parentIdFilter: StringFilterInput) {
+    categories(filter: { parentId: $parentIdFilter }) {
       ...Category
     }
   }
