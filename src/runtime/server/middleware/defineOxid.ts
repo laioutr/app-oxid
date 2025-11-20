@@ -15,6 +15,10 @@ export const defineOxid = defineOrchestr
     const availableSortings = [
       { key: 'price:ASC', label: 'Price (Asc)' },
       { key: 'price:DESC', label: 'Price (Desc)' },
+      { key: 'rating:ASC', label: 'Rating (Asc)' },
+      { key: 'rating:DESC', label: 'Rating (Desc)' },
+      { key: 'title:ASC', label: 'Title (Asc)' },
+      { key: 'title:DESC', label: 'Title (Desc)' },
     ];
 
     return {
