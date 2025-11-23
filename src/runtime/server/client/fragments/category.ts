@@ -7,6 +7,8 @@ export const CategoryFragment = gql`
   fragment Category on Category {
     id
     title
+    longDescription
+    thumbnail
 
     seo {
       ...Seo

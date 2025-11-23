@@ -52,6 +52,14 @@ export class OxidSDK {
     return this.client.request<CategoriesQueryQuery>(CategoriesQuery, { parentIdFilter: parentId ? { equals: parentId } : undefined });
   }
 
+  async getCategoryBySlug(slug: string) {
+    const { categories } = await this.listCategories();
+
+    const category = categories.find((c) => extractEntitySlug('category', c) === slug);
+
+    return category;
+  }
+
   /* Manufacturers */
   async listManufacturers() {
     return this.client.request<ManufacturerQueryQuery>(ManufacturerQuery);
@@ -96,9 +104,7 @@ export class OxidSDK {
     queryParams?: Parameters<typeof this.resolveProductQueryParams>[0],
     flags: ProductFlags = {}
   ) {
-    const { categories } = await this.listCategories();
-
-    const category = categories.find((c) => extractEntitySlug('category', c) === categorySlug);
+    const category = await this.getCategoryBySlug(categorySlug);
 
     if (!category) throw new CategoryNotFoundError(categorySlug);
 
