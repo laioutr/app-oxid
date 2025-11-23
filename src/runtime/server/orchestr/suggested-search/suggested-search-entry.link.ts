@@ -8,8 +8,8 @@ export default defineOxidLink(SuggestedSearchEntriesLink, async ({ passthrough }
   return {
     links: [
       {
-        sourceId: '#',
-        targetIds: results.map((res) => res.id),
+        sourceId: results.id,
+        targetIds: results.suggestions.map((res) => res.id),
       },
     ],
   };

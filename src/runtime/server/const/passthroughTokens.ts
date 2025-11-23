@@ -1,4 +1,5 @@
 import { createPassthroughToken } from '#imports';
+import { PageTypeToken } from '@laioutr-core/canonical-types/page';
 import { Basket, CategoryFragment, ProductFragment } from '../../../generated/types';
 
 export const categoriesPassthroughToken = createPassthroughToken<CategoryFragment[]>('@laioutr-app/oxid/categoriesPassthroughToken');
@@ -10,6 +11,14 @@ export const variantsPassthroughToken = createPassthroughToken<Omit<ProductFragm
 
 export const cartFragmentToken = createPassthroughToken<Basket>('@laioutr-app/oxid/cartFragment');
 
-export const suggestionResultsFragmentToken = createPassthroughToken<Array<{ id: string; type: string; title: string; url: string }>>(
-  '@laioutr/app-oxid/suggestionResults'
-);
+export const suggestionResultsFragmentToken = createPassthroughToken<{
+  id: string;
+  suggestions: Array<{
+    id: string;
+    type: string;
+    title: string;
+    link:
+      | { type: 'reference'; reference: { type: string; id: string; slug: string } }
+      | { type: 'pageType'; pageType: PageTypeToken; params: Record<string, string> };
+  }>;
+}>('@laioutr/app-oxid/suggestionResults');

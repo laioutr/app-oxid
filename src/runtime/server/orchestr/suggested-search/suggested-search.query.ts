@@ -1,6 +1,7 @@
 import { SuggestedSearchSearchQuery } from '@laioutr-core/canonical-types/suggested-search';
 import { suggestionResultsFragmentToken } from '../../const/passthroughTokens';
 import { defineOxidQuery } from '../../middleware/defineOxid';
+import { extractEntitySlug } from '../../utils/oxid/extractSlug';
 
 export default defineOxidQuery(SuggestedSearchSearchQuery, async ({ context, input, passthrough }) => {
   const oxidClient = context.oxid.client;
@@ -14,7 +15,10 @@ export default defineOxidQuery(SuggestedSearchSearchQuery, async ({ context, inp
       id: category.id,
       type: 'category',
       title: category.title,
-      url: '#',
+      link: {
+        type: 'reference',
+        reference: { type: 'category', id: category.id, slug: extractEntitySlug('category', category) },
+      } as const,
     }));
 
   const productsResults = (await oxidClient.searchProducts(query ?? '', {}, { includeProductBase: true })).products
@@ -23,10 +27,15 @@ export default defineOxidQuery(SuggestedSearchSearchQuery, async ({ context, inp
       id: product.id,
       type: 'product',
       title: product.title,
-      url: '#',
+      link: {
+        type: 'reference',
+        reference: { type: 'product', id: product.id, slug: extractEntitySlug('product', product) },
+      } as const,
     }));
 
-  passthrough.set(suggestionResultsFragmentToken, [...categoriesResults, ...productsResults]);
+  const id = `search-suggest:${query}`;
 
-  return { id: '#' };
+  passthrough.set(suggestionResultsFragmentToken, { id, suggestions: [...categoriesResults, ...productsResults] });
+
+  return { id };
 });
