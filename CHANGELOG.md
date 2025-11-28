@@ -1,6 +1,31 @@
 # Changelog
 
 
+## v0.1.2
+
+[compare changes](https://github.com/laioutr/app-oxid/compare/v0.1.1...v0.1.2)
+
+### 🚀 Enhancements
+
+- Implement suggested search ([7c2a0b2](https://github.com/laioutr/app-oxid/commit/7c2a0b2))
+- Add search query ([41222e3](https://github.com/laioutr/app-oxid/commit/41222e3))
+- Add sortings for rating & title ([342da80](https://github.com/laioutr/app-oxid/commit/342da80))
+- Fix link & ID for search suggest query ([da08a0a](https://github.com/laioutr/app-oxid/commit/da08a0a))
+- Add category by slug query + category resolver ([8088d4e](https://github.com/laioutr/app-oxid/commit/8088d4e))
+
+### 🩹 Fixes
+
+- Missing variant options ([cafcbcd](https://github.com/laioutr/app-oxid/commit/cafcbcd))
+
+### 🏡 Chore
+
+- Release 0.1.1 ([8494c74](https://github.com/laioutr/app-oxid/commit/8494c74))
+
+### ❤️ Contributors
+
+- Abdotaker608 <abdotaker607@gmail.com>
+- Sebastian Langer <sebastian.langer@laioutr.com>
+
 ## v0.1.1
 
 [compare changes](https://github.com/laioutr/app-oxid/compare/v0.1.0...v0.1.1)
