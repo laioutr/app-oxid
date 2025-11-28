@@ -33,6 +33,7 @@ export const ProductOptionsFragment = gql`
         name
         value
         active
+        disabled
       }
     }
   }

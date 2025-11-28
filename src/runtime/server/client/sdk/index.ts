@@ -11,6 +11,7 @@ import {
   ProductQueryQuery,
   ProductsQueryQuery,
   TokenQueryQuery,
+  VariantSelectionsQueryQuery,
   VendorQueryQuery,
 } from '../../../../generated/types';
 import { extractEntitySlug } from '../../utils/oxid/extractSlug';
@@ -20,6 +21,7 @@ import { CategoriesQuery } from '../queries/categories';
 import { ManufacturerQuery } from '../queries/manufacturer';
 import { ProductQuery, ProductsQuery } from '../queries/products';
 import { TokenQuery } from '../queries/token';
+import { VariantSelectionsQuery } from '../queries/variants';
 import { VendorQuery } from '../queries/vendor';
 import { ProductFlags } from '../types/flags';
 
@@ -50,6 +52,14 @@ export class OxidSDK {
   /* Categories */
   async listCategories(parentId?: string) {
     return this.client.request<CategoriesQueryQuery>(CategoriesQuery, { parentIdFilter: parentId ? { equals: parentId } : undefined });
+  }
+
+  async getCategoryBySlug(slug: string) {
+    const { categories } = await this.listCategories();
+
+    const category = categories.find((c) => extractEntitySlug('category', c) === slug);
+
+    return category;
   }
 
   /* Manufacturers */
@@ -96,13 +106,22 @@ export class OxidSDK {
     queryParams?: Parameters<typeof this.resolveProductQueryParams>[0],
     flags: ProductFlags = {}
   ) {
-    const { categories } = await this.listCategories();
-
-    const category = categories.find((c) => extractEntitySlug('category', c) === categorySlug);
+    const category = await this.getCategoryBySlug(categorySlug);
 
     if (!category) throw new CategoryNotFoundError(categorySlug);
 
     return this.getProductsByCategoryId(category.id, queryParams, flags);
+  }
+
+  async searchProducts(query: string, queryParams?: Parameters<typeof this.resolveProductQueryParams>[0], flags: ProductFlags = {}) {
+    const qp = this.resolveProductQueryParams(queryParams);
+
+    return this.client.request<ProductsQueryQuery>(ProductsQuery, { titleFilter: { contains: query }, ...qp, ...flags });
+  }
+
+  /* Variants */
+  async getVariantSelectionLists(productId: string, varSelIds: string[]) {
+    return this.client.request<VariantSelectionsQueryQuery>(VariantSelectionsQuery, { productId, varSelIds });
   }
 
   /* Baskets */

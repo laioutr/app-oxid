@@ -42,9 +42,9 @@ export default defineOxidComponentResolver({
                 includeProductBase: requestedComponents.includes('base'),
                 includeProductInfo: requestedComponents.includes('info'),
                 includeProductPrices: requestedComponents.includes('prices'),
-                includeProductVariantAvailability: requestedComponents.includes('availability'),
-                includeProductVariantOptions: requestedComponents.includes('options'),
-                includeProductVariantQuantityPrices: requestedComponents.includes('quantityPrices'),
+                includeProductAvailability: requestedComponents.includes('availability'),
+                includeProductOptions: requestedComponents.includes('options'),
+                includeProductQuantityPrices: requestedComponents.includes('quantityPrices'),
               })
               .then((r) => r.product)
           )
@@ -113,9 +113,7 @@ export default defineOxidComponentResolver({
         }),
 
         options: () => ({
-          selected: product.selectionLists.flatMap((list) =>
-            list.fields.filter((field) => field.active).map((field) => ({ name: field.name, value: field.value }))
-          ),
+          selected: product.selectionLists.flatMap((list) => list.fields.map((field) => ({ name: field.name, value: field.value }))),
         }),
       });
     });

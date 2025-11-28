@@ -1,4 +1,5 @@
 import { ProductVariantsLink } from '@laioutr-core/canonical-types/ecommerce';
+import { Product } from '../../../../generated/types';
 import { productsPassthroughToken, variantsPassthroughToken } from '../../const/passthroughTokens';
 import { defineOxidLink } from '../../middleware/defineOxid';
 
@@ -25,15 +26,30 @@ export default defineOxidLink(ProductVariantsLink, async ({ entityIds, context, 
         )
       );
 
-  passthrough.set(
-    variantsPassthroughToken,
-    products.flatMap((product) => (product.variants?.length > 0 ? product.variants : [product]))
+  const variants = [] as Product[];
+
+  await Promise.all(
+    products.map(async (p) => {
+      const { variantSelections } = await oxidClient.getVariantSelectionLists(
+        p.id,
+        p.variants.length > 0 ? p.variants.map((v) => v.id) : [p.id]
+      );
+
+      for (const v of p.variants) {
+        variants.push({
+          ...v,
+          selectionLists: variantSelections?.selections.map((selection) => ({ title: selection.label, fields: selection.fields })) ?? [],
+        } as Product);
+      }
+    })
   );
+
+  passthrough.set(variantsPassthroughToken, variants);
 
   return {
     links: products.map((product) => ({
       sourceId: product.id,
-      targetIds: (product.variants?.length > 0 ? product.variants : [product]).map((variant) => variant.id),
+      targetIds: variants.map((variant) => variant.id),
     })),
   };
 });
