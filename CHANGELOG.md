@@ -1,6 +1,19 @@
 # Changelog
 
 
+## v0.1.5
+
+[compare changes](https://github.com/laioutr/app-oxid/compare/v0.1.4...v0.1.5)
+
+### 🩹 Fixes
+
+- Include correct variant selection data, fix missing for no-variant Bproducts ([16dbd8e](https://github.com/laioutr/app-oxid/commit/16dbd8e))
+- Remove fetching selectionList data ([97e7148](https://github.com/laioutr/app-oxid/commit/97e7148))
+
+### ❤️ Contributors
+
+- Sebastian Langer <sebastian.langer@laioutr.com>
+
 ## v0.1.4
 
 [compare changes](https://github.com/laioutr/app-oxid/compare/v0.1.3...v0.1.4)
