@@ -11,7 +11,6 @@ import {
   ProductQueryQuery,
   ProductsQueryQuery,
   TokenQueryQuery,
-  VariantSelectionsQueryQuery,
   VendorQueryQuery,
 } from '../../../../generated/types';
 import { extractEntitySlug } from '../../utils/oxid/extractSlug';
@@ -21,7 +20,6 @@ import { CategoriesQuery } from '../queries/categories';
 import { ManufacturerQuery } from '../queries/manufacturer';
 import { ProductQuery, ProductsQuery } from '../queries/products';
 import { TokenQuery } from '../queries/token';
-import { VariantSelectionsQuery } from '../queries/variants';
 import { VendorQuery } from '../queries/vendor';
 import { ProductFlags } from '../types/flags';
 
@@ -117,11 +115,6 @@ export class OxidSDK {
     const qp = this.resolveProductQueryParams(queryParams);
 
     return this.client.request<ProductsQueryQuery>(ProductsQuery, { titleFilter: { contains: query }, ...qp, ...flags });
-  }
-
-  /* Variants */
-  async getVariantSelectionLists(productId: string, varSelIds: string[]) {
-    return this.client.request<VariantSelectionsQueryQuery>(VariantSelectionsQuery, { productId, varSelIds });
   }
 
   /* Baskets */

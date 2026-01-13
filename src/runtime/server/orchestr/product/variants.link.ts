@@ -39,8 +39,6 @@ export default defineOxidLink(ProductVariantsLink, async ({ entityIds, context, 
     products.flatMap((product) => [product, ...product.variants])
   );
 
-  console.log('products', passthrough.get(productsPassthroughToken), products);
-
   return {
     links: products.map((product) => ({
       sourceId: product.id,
