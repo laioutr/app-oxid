@@ -1,6 +1,7 @@
 import { Money } from '@screeny05/ts-money';
 import {
   ProductBase,
+  ProductDefaultVariant,
   ProductDescription,
   ProductFlags,
   ProductInfo,
@@ -16,7 +17,7 @@ import { extractEntitySlug } from '../../utils/oxid/extractSlug';
 export default defineOxidComponentResolver({
   label: 'OXID Product Resolver',
   entityType: 'Product',
-  provides: [ProductBase, ProductDescription, ProductInfo, ProductMedia, ProductPrices, ProductSeo, ProductFlags],
+  provides: [ProductBase, ProductDescription, ProductInfo, ProductMedia, ProductPrices, ProductSeo, ProductFlags, ProductDefaultVariant],
   resolve: async ({ entityIds, context, requestedComponents, passthrough, $entity }) => {
     const oxidClient = context.oxid.client;
 
@@ -86,6 +87,8 @@ export default defineOxidComponentResolver({
         }),
 
         flags: () => [],
+
+        defaultVariant: {},
       });
     });
 
