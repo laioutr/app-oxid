@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.1.4
+
+[compare changes](https://github.com/laioutr/app-oxid/compare/v0.1.3...v0.1.4)
+
+### 🩹 Fixes
+
+- Add missing Product.defaultVariant resolver ([a6f47a9](https://github.com/laioutr/app-oxid/commit/a6f47a9))
+
+### ❤️ Contributors
+
+- Sebastian Langer <sebastian.langer@laioutr.com>
+
 ## v0.1.3
 
 [compare changes](https://github.com/laioutr/app-oxid/compare/v0.1.2...v0.1.3)
