@@ -31,7 +31,7 @@ export default defineOxidComponentResolver({
   resolve: async ({ entityIds, context, requestedComponents, passthrough, $entity }) => {
     const oxidClient = context.oxid.client;
 
-    const products =
+    const variants =
       passthrough.has(variantsPassthroughToken) ?
         passthrough.get(variantsPassthroughToken)!
       : await Promise.all(
@@ -50,32 +50,35 @@ export default defineOxidComponentResolver({
           )
         );
 
-    const entities = products.map((product) => {
-      const price = product.price ? Money.fromDecimal({ amount: product.price.price, currency: product.price.currency.name }) : zeroMoney;
+    const entities = variants.map((variant) => {
+      const price = variant.price ? Money.fromDecimal({ amount: variant.price.price, currency: variant.price.currency.name }) : zeroMoney;
 
       return $entity({
-        id: product.id,
+        id: variant.id,
 
         base: () => ({
-          gtin: product.ean,
-          sku: product.sku ?? product.id,
-          name: product.title,
+          gtin: variant.ean,
+          sku: variant.sku ?? variant.id,
+          name: variant.title,
         }),
 
         info: () => ({
-          image: mapResponsiveProductImageFragment(product.imageGallery.images[0]),
+          image:
+            variant.imageGallery && variant.imageGallery.images.length > 0 ?
+              mapResponsiveProductImageFragment(variant.imageGallery.images[0])
+            : undefined,
         }),
 
         availability: () => ({
-          status: product.stock.stock > 0 ? 'inStock' : 'outOfStock',
-          quantity: product.stock.stock,
-          availabilityDate: product.stock.restockDate,
+          status: variant.stock.stock > 0 ? 'inStock' : 'outOfStock',
+          quantity: variant.stock.stock,
+          availabilityDate: variant.stock.restockDate,
         }),
 
         prices: () => {
           const strikethroughPrice =
-            product.listPrice ?
-              Money.fromDecimal({ amount: product.listPrice.price, currency: product.listPrice.currency.name })
+            variant.listPrice ?
+              Money.fromDecimal({ amount: variant.listPrice.price, currency: variant.listPrice.currency.name })
             : undefined;
           const isOnSale = !!strikethroughPrice;
           const savingsPercent = strikethroughPrice ? 100 - price?.percentageOf(strikethroughPrice) : undefined;
@@ -89,11 +92,11 @@ export default defineOxidComponentResolver({
         },
 
         quantityPrices: () =>
-          product.scalePrices.map((p) => {
+          variant.scalePrices.map((p) => {
             const prc =
               p.absoluteScalePrice ?
-                Money.fromDecimal({ amount: p.absolutePrice!, currency: product.price.currency.name })
-              : price.subtract(Money.fromDecimal({ amount: p.discount!, currency: product.price.currency.name }));
+                Money.fromDecimal({ amount: p.absolutePrice!, currency: variant.price.currency.name })
+              : price.subtract(Money.fromDecimal({ amount: p.discount!, currency: variant.price.currency.name }));
 
             return {
               quantity: p.amountFrom,
@@ -113,7 +116,7 @@ export default defineOxidComponentResolver({
         }),
 
         options: () => ({
-          selected: product.selectionLists.flatMap((list) => list.fields.map((field) => ({ name: field.name, value: field.value }))),
+          selected: variant.variantLabels.map((label, i) => ({ name: label, value: variant.variantValues[i] ?? 'Unknown Value' })),
         }),
       });
     });

@@ -27,6 +27,8 @@ export const ProductAvailabilityFragment = gql`
 
 export const ProductOptionsFragment = gql`
   fragment ProductOptions on Product {
+    variantLabels
+    variantValues
     selectionLists {
       title
       fields {
