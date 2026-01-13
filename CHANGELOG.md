@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.1.3
+
+[compare changes](https://github.com/laioutr/app-oxid/compare/v0.1.2...v0.1.3)
+
+### 🏡 Chore
+
+- Update core-dependency to 0.27.0 ([a572fbd](https://github.com/laioutr/app-oxid/commit/a572fbd))
+
+### ❤️ Contributors
+
+- Sebastian Langer <sebastian.langer@laioutr.com>
+
 ## v0.1.2
 
 [compare changes](https://github.com/laioutr/app-oxid/compare/v0.1.1...v0.1.2)
