@@ -9,17 +9,14 @@ export default defineOxidComponentResolver({
   resolve: ({ passthrough, $entity }) => {
     const results = passthrough.require(suggestionResultsFragmentToken);
 
-    const entities = results.map(({ id, type, title, url }) =>
+    const entities = results.suggestions.map((suggestion) =>
       $entity({
-        id,
+        id: suggestion.id,
 
         base: () => ({
-          type,
-          title,
-          link: {
-            type: 'url',
-            href: url,
-          },
+          type: suggestion.type,
+          title: suggestion.title,
+          link: suggestion.link,
         }),
       })
     );

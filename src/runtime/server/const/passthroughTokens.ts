@@ -1,5 +1,5 @@
 import { createPassthroughToken } from '#imports';
-import { PageTypeToken } from '@laioutr-core/canonical-types/page';
+import { PageTypeToken } from '@laioutr-core/core-types/frontend';
 import { Basket, CategoryFragment, ProductFragment } from '../../../generated/types';
 
 export const categoriesPassthroughToken = createPassthroughToken<CategoryFragment[]>('@laioutr-app/oxid/categoriesPassthroughToken');

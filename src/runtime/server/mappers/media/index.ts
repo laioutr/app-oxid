@@ -1,5 +1,5 @@
 import { useRuntimeConfig } from '#imports';
-import { MediaImage } from '@laioutr-core/canonical-types';
+import { MediaImage } from '@laioutr-core/core-types/common';
 import { ProductImage } from '../../../../generated/types';
 
 export const mapImageFragment = ({ url }: { url: string }) => ({
