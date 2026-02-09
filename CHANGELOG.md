@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.1.6
+
+[compare changes](https://github.com/laioutr/app-oxid/compare/v0.1.5...v0.1.6)
+
+### 🏡 Chore
+
+- Update dependencies ([95ade1e](https://github.com/laioutr/app-oxid/commit/95ade1e))
+
+### ❤️ Contributors
+
+- Sebastian Langer <sebastian.langer@laioutr.com>
+
 ## v0.1.5
 
 [compare changes](https://github.com/laioutr/app-oxid/compare/v0.1.4...v0.1.5)
